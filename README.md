@@ -32,7 +32,6 @@ Assuming there are no errors and the site is building properly, follow these ste
    * `posts/index.html` - set to `layout: page` (you will also need to create a `posts` directory)
 
 2. Configure the `index.html` front matter. Example:
-
     ```markdown
     ---
     layout: home
