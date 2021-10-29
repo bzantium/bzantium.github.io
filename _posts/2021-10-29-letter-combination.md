@@ -1,0 +1,140 @@
+---
+layout: post
+title: "[LeetCode 100] 17. Letter Combinations of a Phone Number"
+subtitle: 
+date: 2021-10-29
+background: '/img/posts/code.jpg'
+---
+<h3>Problem:</h3>
+<p>
+Given a string containing digits from 2-9 inclusive, return all possible letter combinations that the number could represent. Return the answer in any order.
+A mapping of digit to letters (just like on the telephone buttons) is given below. Note that 1 does not map to any letters.
+</p>
+
+```
+Example 1:
+Input: digits = "23"
+Output: ["ad","ae","af","bd","be","bf","cd","ce","cf"]
+
+Example 2:
+Input: digits = ""
+Output: []
+
+Example 3:
+Input: digits = "2"
+Output: ["a","b","c"]
+```
+
+<br/>
+<h3>Solution:</h3>
+
+<p>
+Recursion을 이용하면 쉽게 해결할 수 있다. digit을 받으면 뒤에 오는 digit에 대한 알파벳을 순차적으로 입력하도록 recursive하게 해결.
+Deque의 경우 element의 삽입 또는 제거의 속도가 O(1)으로 리스트보다 월등한 속도를 가진다.
+</p>
+
+<br/>
+<h3>Code:</h3>
+
+<p>1. 하나씩 올리는 방법</p>
+
+```python
+class Solution:
+    letters = {
+        '2': 'abc',
+        '3': 'def',
+        '4': 'ghi',
+        '5': 'jkl',
+        '6': 'mno',
+        '7': 'pqrs',
+        '8': 'tuv',
+        '9': 'wxyz'
+    }
+
+    def letterCombinations(self, digits: str) -> List[str]:
+        if len(digits) == 0:
+            return []
+        
+        num_to_chars = {
+            '2':['a','b','c'], 
+            '3':['d','e','f'],
+            '4':['g','h','i'],
+            '5':['j','k','l'],
+            '6':['m','n','o'],
+            '7':['p','q','r','s'],
+            '8':['t','u','v'],
+            '9':['w','x','y','z'],
+        }
+        
+        cases = []
+        total_cases = 1
+        for digit in digits:
+            total_cases *= len(num_to_chars[digit])
+        
+        count = 0
+        counts = [0] * len(digits)
+        while count < total_cases:
+            comb = ''
+            for i, digit in enumerate(digits):
+                if counts[i] == len(num_to_chars[digit]):
+                    counts[i+1] += 1
+                    counts[i] = 0
+                comb += num_to_chars[digit][counts[i]]
+            counts[0] += 1
+            cases.append(comb)
+            count += 1
+        return cases
+```
+
+<p>2. Recursion 방법</p>
+
+```python
+class Solution:
+    letters = {
+        '2': 'abc',
+        '3': 'def',
+        '4': 'ghi',
+        '5': 'jkl',
+        '6': 'mno',
+        '7': 'pqrs',
+        '8': 'tuv',
+        '9': 'wxyz'
+    }
+
+    def letterCombinations(self, digits: str) -> List[str]:
+        return self.combinations(digits, first_trial=True)
+
+    def combinations(self, digits, first_trial=False):
+        if not digits:
+            return [""] if not first_trial else []
+        
+        cases = []
+        for l in self.letters[digits[0]]:
+            for case in self.combinations(digits[1:]):
+                cases.append(l+case)
+        return cases
+```
+
+<p>3. Deque 방법</p>
+
+```python
+class Solution:
+    def letterCombinations(self, digits: str) -> List[str]:
+        mapping = {
+            '2' : 'abc',
+            '3' : 'def',
+            '4' : 'ghi',
+            '5' : 'jkl',
+            '6' : 'mno',
+            '7' : 'pqrs',
+            '8' : 'tuv',
+            '9' : 'wxyz'
+        }
+        result = collections.deque([''])
+        for d in digits:
+            for _ in range(len(result)):
+                prev = result.popleft()
+                for letter in mapping[d]:
+                    result.append(prev + letter)
+        return result if digits else ''
+```
