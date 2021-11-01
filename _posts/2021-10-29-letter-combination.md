@@ -40,17 +40,6 @@ Deque의 경우 element의 삽입 또는 제거의 속도가 O(1)으로 리스�
 
 ```python
 class Solution:
-    letters = {
-        '2': 'abc',
-        '3': 'def',
-        '4': 'ghi',
-        '5': 'jkl',
-        '6': 'mno',
-        '7': 'pqrs',
-        '8': 'tuv',
-        '9': 'wxyz'
-    }
-
     def letterCombinations(self, digits: str) -> List[str]:
         if len(digits) == 0:
             return []
@@ -118,6 +107,7 @@ class Solution:
 <p>3. Deque 방법</p>
 
 ```python
+import collections
 class Solution:
     def letterCombinations(self, digits: str) -> List[str]:
         mapping = {
