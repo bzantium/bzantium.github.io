@@ -4,7 +4,7 @@ description:        "개발 블로그"
 author:             Minho Ryu
 baseurl:            ""
 url:                "https://bzantium.github.io"
-theme: jekyll-theme-clean-blog
+remote_theme: StartBootstrap/startbootstrap-clean-blog-jekyll
 highlighter:        rouge
 
 # Social Profiles
